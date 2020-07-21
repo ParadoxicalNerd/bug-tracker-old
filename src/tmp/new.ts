@@ -1,40 +1,28 @@
-import Typegoose, { prop, getModelForClass, Ref } from '@typegoose/typegoose'
-import mongoose from 'mongoose'
+import { prop, getModelForClass, Ref } from '@typegoose/typegoose'
+import { projectSchema } from '../models/project'
 
-class projectSchema {
-    @prop()
-    public name?: string;
-}
-
-enum ticket_types {
-    BUG = 'BUG',
-    FEATURE = 'FEATURE',
-    DOCS = 'DOCS'
-}
-const ticket_status = ['open', 'assigned', 'testing', 'resolved'] as const
-const ticket_priority = ['unknown', 'low', 'medium', 'high', 'critical'] as const
+enum ticket_types { BUG, FEATURE, DOCS }
+enum ticket_status { OPEN, ASSIGNED, TESTING, RESOLVED }
+enum ticket_priority { UNKNOWN, LOW, MEDIUM, HIGH, CRITICAL }
 
 class Schema {
-    @prop({ enum: ticket_types, required: true })
-    public ticket_type!: String;
+    @prop({ type: Number, enum: ticket_types, required: true })
+    public ticket_type!: ticket_types;
 
-    @prop({ enum: ticket_priority, required: true })
-    public priority!: String //{ type: String, enum: String, required: true };
+    @prop({ type: Number, enum: ticket_priority, required: true })
+    public priority!: ticket_priority
 
-    @prop({ enum: ticket_status, required: true })
-    public status!: String //{ type: String, enum: String, required: true };
+    @prop({ type: Number, enum: ticket_status, required: true })
+    public status!: ticket_status
 
     @prop({ ref: projectSchema })
-    public project: Ref<projectSchema>
+    public project?: Ref<projectSchema>
 }
 
 const Kitten = getModelForClass(Schema);
 
 Kitten.create({
-    ticket_type: 'FEATURE',
-    priority: 'open',
-    status: 'fdfs',
-    project: {
-        name: 'dsfs'
-    }
+    ticket_type: ticket_types.BUG,
+    priority: ticket_priority.UNKNOWN,
+    status: ticket_status.OPEN,
 })

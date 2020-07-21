@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import config from './config.json'
 
-async () => {
+export default async () => {
     try {
         await mongoose.connect(config.url, {
             useNewUrlParser: true,

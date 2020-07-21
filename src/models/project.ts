@@ -1,25 +1,23 @@
-import { createSchema, Type, typedModel, Extract } from 'ts-mongoose'
-import { mongoose } from '@typegoose/typegoose'
+import { prop, getModelForClass, Ref } from '@typegoose/typegoose'
+import { userSchema } from './user'
+import { ticketSchema } from './ticket'
+import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
-export const projectSchema = createSchema({
-    name: Type.string({ required: true }),
-    description: Type.string(),
-    createdBy: Type.objectId({
-        required: true
-    }),
-    associatedUsers: Type.array({ required: true }).of(Type.objectId({ required: true })),
-    tickets: Type.array().of(Type.objectId({ required: true }))
-}, {
-    timestamps: true
-})
+export class projectSchema {
+    @prop({ required: true })
+    public name!: String
 
-export default typedModel('projects', projectSchema)
-export type ProjectType = Extract<typeof projectSchema>
+    @prop()
+    public description?: String
 
-export interface proScheme extends mongoose.Document {
-    name: string,
-    description: string,
-    createdBy: Array<any>,
-    associatedUsers: Array<any>,
-    tickets: Array<any>
+    @prop({ ref: 'userschemas' })
+    public createdBy?: Ref<userSchema>[]
+
+    // @prop({ ref: userSchema, required: false })
+    // public associatedUsers?: Ref<userSchema>[]
+
+    // @prop({ ref: ticketSchema, required: false })
+    // public tickets?: Ref<ticketSchema>[]
 }
+
+export default getModelForClass(projectSchema)
