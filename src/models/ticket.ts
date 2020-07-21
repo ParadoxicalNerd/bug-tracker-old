@@ -48,5 +48,5 @@ let a = model<ISchema>('s', schema)
 a.create({
     priority: "critical",
     ticket_type: "bug",
-    project
+    projec
 })

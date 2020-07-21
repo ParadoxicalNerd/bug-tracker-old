@@ -1,4 +1,5 @@
 import Typegoose, { prop, getModelForClass, Ref } from '@typegoose/typegoose'
+import mongoose from 'mongoose'
 
 class projectSchema {
     @prop()
@@ -15,16 +16,16 @@ const ticket_priority = ['unknown', 'low', 'medium', 'high', 'critical'] as cons
 
 class Schema {
     @prop({ enum: ticket_types, required: true })
-    public ticket_type!: ticket_types;
+    public ticket_type!: String;
 
     @prop({ enum: ticket_priority, required: true })
-    public priority!: { type: String, enum: String, required: true };
+    public priority!: String //{ type: String, enum: String, required: true };
 
     @prop({ enum: ticket_status, required: true })
-    public status!: { type: String, enum: String, required: true };
+    public status!: String //{ type: String, enum: String, required: true };
 
-    // @prop({ ref: projectSchema })
-    // public project: Ref<projectSchema>
+    @prop({ ref: projectSchema })
+    public project: Ref<projectSchema>
 }
 
 const Kitten = getModelForClass(Schema);
@@ -32,5 +33,8 @@ const Kitten = getModelForClass(Schema);
 Kitten.create({
     ticket_type: 'FEATURE',
     priority: 'open',
-    status: 'fdfs'
+    status: 'fdfs',
+    project: {
+        name: 'dsfs'
+    }
 })

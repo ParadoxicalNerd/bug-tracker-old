@@ -4,6 +4,7 @@ import 'ts-mongoose/plugin'
 class ticketService {
     async getAllTickets() {
         let tickets: any = null, error: any = null, statusCode: number
+        Tickets.find()
         const document = await Tickets.find().populateTs('project').populateTs('assignedTo')
         if (document) {
             tickets = document
@@ -24,7 +25,8 @@ class ticketService {
             status: "open",
             priority: "unknown",
             createdAt: Date.now(),
-            updatedAt: Date.now()
+            updatedAt: Date.now(),
+            project
         })
     }
 }
