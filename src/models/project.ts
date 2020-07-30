@@ -1,8 +1,9 @@
-import { prop, getModelForClass, Ref } from '@typegoose/typegoose'
-import { userSchema } from './user'
-import { ticketSchema } from './ticket'
+import { prop, getModelForClass, Ref, modelOptions } from '@typegoose/typegoose'
+import { userSchema, userCollection } from './user'
+import { ticketSchema, ticketCollection } from './ticket'
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
+@modelOptions({ schemaOptions: { timestamps: true } })
 export class projectSchema {
     @prop({ required: true })
     public name!: String
@@ -10,14 +11,17 @@ export class projectSchema {
     @prop()
     public description?: String
 
-    @prop({ ref: 'userschemas' })
+    @prop({ ref: userSchema })
     public createdBy?: Ref<userSchema>[]
 
-    // @prop({ ref: userSchema, required: false })
-    // public associatedUsers?: Ref<userSchema>[]
+    @prop({ ref: userSchema })
+    public associatedUsers?: Ref<userSchema>[]
 
-    // @prop({ ref: ticketSchema, required: false })
-    // public tickets?: Ref<ticketSchema>[]
+    @prop({ ref: () => ticketSchema })
+    public tickets?: Ref<ticketSchema>[]
 }
 
-export default getModelForClass(projectSchema)
+const projectModel = getModelForClass(projectSchema)
+export const projectCollection = projectModel.collection.name
+
+export default projectModel

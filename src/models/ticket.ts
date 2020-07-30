@@ -1,14 +1,21 @@
-import { prop, getModelForClass, Ref } from '@typegoose/typegoose'
-import { projectSchema } from '../models/project'
-import { Types } from 'mongoose'
+import { prop, getModelForClass, Ref, modelOptions } from '@typegoose/typegoose'
+import { projectSchema, projectCollection } from '../models/project'
+import { userSchema, userCollection } from './user'
 
 export enum ticketTypes { BUG, FEATURE, DOCS }
 export enum ticketStatus { OPEN, ASSIGNED, TESTING, RESOLVED }
 export enum ticketPriority { UNKNOWN, LOW, MEDIUM, HIGH, CRITICAL }
 
+@modelOptions({ schemaOptions: { timestamps: true } })
 export class ticketSchema {
+    @prop({ required: true })
+    public title!: String
+
+    @prop({ required: true })
+    public description!: String
+
     @prop({ type: Number, enum: ticketTypes, required: true })
-    public type!: ticketTypes;
+    public type!: ticketTypes
 
     @prop({ type: Number, enum: ticketPriority, required: true })
     public priority!: ticketPriority
@@ -16,11 +23,26 @@ export class ticketSchema {
     @prop({ type: Number, enum: ticketStatus, required: true })
     public status!: ticketStatus
 
-    @prop({ ref: projectSchema })
+    @prop({ ref: projectSchema, required: true })
     public project!: Ref<projectSchema>
+
+    @prop({ ref: userSchema, required: true })
+    public createdBy!: Ref<userSchema>
+
+    @prop({ ref: userSchema, required: false })
+    public assignedTo?: Ref<userSchema>[]
+
+    @prop()
+    public comments?: String[]
+
+    @prop()
+    public changeLog?: String[]
 }
 
-export default getModelForClass(ticketSchema)
+const ticketModel = getModelForClass(ticketSchema)
+export const ticketCollection = ticketModel.collection.name
+
+export default ticketModel
 
 
 // import { createSchema, Type, typedModel, Extract, ExtractProps } from 'ts-mongoose'

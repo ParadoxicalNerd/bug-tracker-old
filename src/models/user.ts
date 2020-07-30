@@ -1,44 +1,51 @@
-// import { createSchema, Type, typedModel, Extract } from 'ts-mongoose'
-// import passportLocalMongoose from 'passport-local-mongoose'
-
-// const userTypes = ['filer', 'programmer', 'tester']
-
-// export const userSchema = createSchema({
-//     name: Type.string({ required: true }),
-//     type: Type.string({ required: true, enum: userTypes }),
-//     ticketsFiled: Type.array().of(Type.objectId({ required: true })),
-//     ticketsClosed: Type.array().of(Type.objectId({ required: true })),
-//     ticketsAssigned: Type.array().of(Type.objectId({ required: true }))
-// })
-
-// userSchema.plugin(passportLocalMongoose)
-
-// export default typedModel('users', userSchema)
-// export type UserType = Extract<typeof userSchema>
-
-import { prop, getModelForClass, Ref, plugin } from '@typegoose/typegoose'
-import { ticketSchema } from './ticket'
+import { prop, getModelForClass, Ref, modelOptions, plugin, pre } from '@typegoose/typegoose'
 import passportLocalMongoose from 'passport-local-mongoose'
-import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
+import bcrypt from 'bcrypt'
 
-export enum userTypes { FILER, PROGRAMMER, TESTER }
+import { ticketSchema, ticketCollection } from './ticket'
 
-// @plugin(passportLocalMongoose)
-export class userSchema extends TimeStamps {
+export enum userTypes { UNKNOWN, REPORTER, PROGRAMMER, TESTER }
+
+
+@modelOptions({ schemaOptions: { timestamps: true } })
+@pre<userSchema>('save', async function (next) {
+    const user = this
+    const hash = await bcrypt.hash(this.password, 10)
+    this.password = hash
+    next()
+})
+class userSchema {
+
+    @prop({ required: true, unique: true })
+    public email!: string
+
     @prop({ required: true })
-    public name!: String
+    public password!: string
+
+    @prop({ required: true })
+    public name!: string
 
     @prop({ required: true, enum: userTypes, type: Number })
     public userType!: userTypes
 
-    @prop({ ref: ticketSchema })
-    public ticketsFiled?: Ref<ticketSchema>[]
+    @prop({ ref: () => ticketSchema })
+    public ticketsReported?: Ref<ticketSchema>[]
 
-    @prop({ ref: ticketSchema })
+    @prop({ ref: () => ticketSchema })
     public ticketsClosed?: Ref<ticketSchema>[]
 
-    @prop({ ref: ticketSchema })
-    public ticketsAssigned?: Ref<ticketSchema>[]
+    @prop({ ref: () => ticketSchema })
+    public ticketsActive?: Ref<ticketSchema>[]
+
+    public isValidpassword(password: string) {
+        const user = this
+        const compare = bcrypt.compare(password, user.password)
+        return compare
+    }
 }
 
-export default getModelForClass(userSchema)
+const userModel = getModelForClass(userSchema)
+export const userCollection = userModel.collection.name
+
+export default userModel
+export { userSchema }
