@@ -1,9 +1,11 @@
-import ticketModel, { ticketTypes, ticketPriority, ticketStatus } from '../models/ticket'
-import projectModel from '../models/project'
-import userModel, { userTypes, userSchema } from '../models/user'
+// import ticketModel, { ticketTypes, ticketPriority, ticketStatus } from '../models/ticket'
+// import projectModel from '../models/project'
+// import userModel, { userTypes, userSchema } from '../models/user'
 
+import { userModel, tempModel, IuserTypes } from '../tmp/new2'
 import express from 'express'
 import 'ts-mongoose/plugin'
+import { ticketStatus } from '../models/ticket'
 
 const app = express.Router()
 
@@ -29,10 +31,26 @@ app.get('/', (req, res, next) => {
         //     project: project._id,
         //     createdBy: user._id
         // })
-        // // console.log(ticket.toObject())
-        let ticket = await ticketModel.find().populate ('project').exec()
-        console.log(ticket[0].toObject())
-        return ticket[0].toObject()
+        // // console.log(ticket.toObject())\
+
+        // let ticket = await ticketModel.find().populate('project').exec()
+        // console.log(ticket[0].toObject())
+        // return ticket[0].toObject()
+
+        let temp = await tempModel.create({
+            namea: "sd"
+        })
+        console.log(temp)
+        let user = await userModel.create({
+            name: "Pankaj",
+            type: IuserTypes.programmer,
+            ticketsAssigned: [temp._id],
+            ticketsClosed: [],
+            ticketsFiled: []
+        })
+        console.log(user)
+        user.ticketsFiled[0].
+        return user.toObject()
     }
     let k = a()
     res.json(k)

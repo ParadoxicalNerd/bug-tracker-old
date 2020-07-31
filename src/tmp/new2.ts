@@ -21,7 +21,7 @@ export type IUser = Document & {
     type: IuserTypes,
     ticketsFiled: Array<ItempSchema['_id']>,
     ticketsClosed: ItempSchema['_id'],
-    ticketsAssigned: Types.ObjectId | typeof tempModel
+    ticketsAssigned: Types.ObjectId[] | (typeof tempModel)[]
 }
 
 export const userSchema = new Schema({
@@ -36,27 +36,74 @@ export const userSchema = new Schema({
 
 export const userModel = model<IUser>('users', userSchema);
 
+function isArrayOfModel(value: Array<IUser>): value is Array {
+    return value[0]._id != undefined
+}
+
 (async () => {
     let temp = await tempModel.create({
-        name: "sd"
+        namea: "sd"
     })
     temp._id
     console.log(temp)
     let user = await userModel.create({
         name: "Pankaj",
         type: IuserTypes.programmer,
-        ticketsAssigned: temp._id,
+        ticketsAssigned: [temp._id],
         ticketsClosed: [],
         ticketsFiled: []
     })
     console.log(user)
     user.populate(' ticketsAssigned', (err, user) => {
+        if(isArrayOfModel(user))=>{
+
+        }
         // console.log((<ItempSchema>user.ticketsAssigned).);
         // if (user.ticketsAssigned instanceof tempModel){
         //     user.ticketsAssigned._id
         // }
-        assert(user.ticketsAssigned instanceof tempModel)
-        user.ticketsAssigned.namea
+        // type _d = typeof tempModel[]
+        // type _e = typeof user.ticketsAssigned
+
+        // type Equals<X, Y> =
+        //     (<T>() => T extends X ? 1 : 2) extends
+        //     (<T>() => T extends Y ? 1 : 2) ? 'true' : 'false';
+
+        // type Equals2<T, S> =
+        //     [T] extends [S] ? (
+        //         [S] extends [T] ? true : false
+        //     ) : false
+
+        // Equals<Head<[1,2,3]> == 1>();
+
+        // let a: Equals<_d, _e>
+        
+        // let b = false
+
+        // // assert(_d as _e)
+        // let k = a.valueOf()
+
+        // if(Equals<_d, _e>)
+
+
+        // if (isArrayOfModel(user.ticketsAssigned)){
+        //     user.ticket
+        // }
+
+        // assert(isArrayOfModel(user.ticketsAssigned));
+        // user.ticketsAssigned
+
+        // assert(typeof user.ticketsAssigned == typeof tempModel[])
+
+        // user.ticketsAssigned
+
+        // let z: infer
+
+        // let s:mongoose.Model<ItempSchema, {}>[]=[]
+        // let k:typeof user.ticketsAssigned
+        // k
+
+
     })
 
 })()
