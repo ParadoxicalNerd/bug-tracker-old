@@ -1,27 +1,21 @@
-import { prop, getModelForClass, Ref, modelOptions } from '@typegoose/typegoose'
-import { userSchema, userCollection } from './user'
-import { ticketSchema, ticketCollection } from './ticket'
-import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
+import { Types, Schema, model, Document } from 'mongoose'
+import { IUser, userModel } from './user'
+import { ITicket, ticketModel } from './ticket'
 
-@modelOptions({ schemaOptions: { timestamps: true } })
-export class projectSchema {
-    @prop({ required: true })
-    public name!: String
-
-    @prop()
-    public description?: String
-
-    @prop({ ref: userSchema })
-    public createdBy?: Ref<userSchema>[]
-
-    @prop({ ref: userSchema })
-    public associatedUsers?: Ref<userSchema>[]
-
-    @prop({ ref: () => ticketSchema })
-    public tickets?: Ref<ticketSchema>[]
+export type IProject = Document & {
+    name: String,
+    description: String,
+    createdBy: Types.ObjectId[] | IUser[],
+    associatedUsers: Types.ObjectId[] | IUser[],
+    tickets: Types.ObjectId[] | ITicket[]
 }
 
-const projectModel = getModelForClass(projectSchema)
-export const projectCollection = projectModel.collection.name
+export const projectSchema: Schema<any> = new Schema({
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    createdBy: [{ type: Types.ObjectId, required: true, ref: userModel }],
+    associatedUsers: [{ type: Types.ObjectId, required: true, ref: userModel }],
+    tickets: [{ type: Types.ObjectId, required: true, ref: ticketModel }]
+})
 
-export default projectModel
+export const projectModel = model<IProject>('project', projectSchema)

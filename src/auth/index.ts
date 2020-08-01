@@ -4,7 +4,7 @@ import { Strategy as JwtStrategy } from 'passport-jwt'
 
 import jwt from 'jsonwebtoken'
 import config from '../database/config.json'
-import User, { userTypes } from '../models/user'
+// import {userModel}, userTypes } from '../models/user'
 
 // passport.use()
 

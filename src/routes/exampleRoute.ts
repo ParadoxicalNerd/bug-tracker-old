@@ -2,20 +2,28 @@
 // import projectModel from '../models/project'
 // import userModel, { userTypes, userSchema } from '../models/user'
 
-import { userModel, tempModel, IuserTypes, ItempSchema, tempSchema } from '../tmp/new2'
+
 import express from 'express'
 import 'ts-mongoose/plugin'
 import { ticketStatus } from '../models/ticket'
 import assert from 'assert'
+import { userModel, userTypes } from '../models/user'
+
 const app = express.Router()
 
 app.get('/', async (req, res, next) => {
     async function a() {
-        // let user = await userModel.create({
-        //     name: "asddfaPan",
-        //     userType: userTypes.PROGRAMMER,
-        // })
-        // // console.log(user.toObject())
+        let user = await userModel.create({
+            name: "asddfaPan",
+            type: userTypes.PROGRAMMER,
+            ticketsFiled: [],
+            ticketsClosed: [],
+            ticketsAssigned: []
+        })
+        console.log(user.toObject())
+
+        return user.toObject()
+
         // let project = await projectModel.create({
         //     name: "pizsddas fasdfasdsa",
         //     createdBy: [user._id]
@@ -37,6 +45,8 @@ app.get('/', async (req, res, next) => {
         // console.log(ticket[0].toObject())
         // return ticket[0].toObject()
 
+        //  ==============================================
+
         // let temp = await tempModel.create({
         //     namea: "sd"
         // })
@@ -53,29 +63,29 @@ app.get('/', async (req, res, next) => {
         // return user.toObject()
 
 
-        let temp = await tempModel.create({
-            namea: "sd"
-        })
-        temp._id
-        console.log(temp)
-        let user = await userModel.create({
-            name: "Pankaj",
-            type: IuserTypes.programmer,
-            ticketsAssigned: [temp._id, temp._id],
-            ticketsClosed: [],
-            ticketsFiled: []
-        })
-        console.log(user)
-        user.populate('ticketsAssigned', (err, user) => {
-            user.ticketsAssigned
-            // (<Array<ItempSchema>>user.ticketsAssigned)[9]._id
-            // or
+        // let temp = await tempModel.create({
+        //     namea: "sd"
+        // })
+        // temp._id
+        // console.log(temp)
+        // let user = await userModel.create({
+        //     name: "Pankaj",
+        //     type: IuserTypes.programmer,
+        //     ticketsAssigned: [temp._id, temp._id],
+        //     ticketsClosed: [],
+        //     ticketsFiled: []
+        // })
+        // console.log(user)
+        // user.populate('ticketsAssigned', (err, user) => {
+        //     user.ticketsAssigned
+        //     // (<Array<ItempSchema>>user.ticketsAssigned)[9]._id
+        //     // or
 
-            // user.ticketsAssigned = (<Array<ItempSchema>>user.ticketsAssigned)
-            // user.ticketsAssigned = user.ticketsAssigned
-            console.log(user)
-            return user.toObject()
-        })
+        //     // user.ticketsAssigned = (<Array<ItempSchema>>user.ticketsAssigned)
+        //     // user.ticketsAssigned = user.ticketsAssigned
+        //     console.log(user)
+        //     return user.toObject()
+        // })
 
     }
     let k = await a()
