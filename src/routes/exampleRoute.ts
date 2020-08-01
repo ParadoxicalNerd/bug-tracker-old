@@ -2,14 +2,14 @@
 // import projectModel from '../models/project'
 // import userModel, { userTypes, userSchema } from '../models/user'
 
-import { userModel, tempModel, IuserTypes } from '../tmp/new2'
+import { userModel, tempModel, IuserTypes, ItempSchema, tempSchema } from '../tmp/new2'
 import express from 'express'
 import 'ts-mongoose/plugin'
 import { ticketStatus } from '../models/ticket'
-
+import assert from 'assert'
 const app = express.Router()
 
-app.get('/', (req, res, next) => {
+app.get('/', async (req, res, next) => {
     async function a() {
         // let user = await userModel.create({
         //     name: "asddfaPan",
@@ -37,23 +37,49 @@ app.get('/', (req, res, next) => {
         // console.log(ticket[0].toObject())
         // return ticket[0].toObject()
 
+        // let temp = await tempModel.create({
+        //     namea: "sd"
+        // })
+        // console.log(temp)
+        // let user = await userModel.create({
+        //     name: "Pankaj",
+        //     type: IuserTypes.programmer,
+        //     ticketsAssigned: [temp._id],
+        //     ticketsClosed: [],
+        //     ticketsFiled: []
+        // })
+        // console.log(user)
+        // user.ticketsFiled[0].
+        // return user.toObject()
+
+
         let temp = await tempModel.create({
             namea: "sd"
         })
+        temp._id
         console.log(temp)
         let user = await userModel.create({
             name: "Pankaj",
             type: IuserTypes.programmer,
-            ticketsAssigned: [temp._id],
+            ticketsAssigned: [temp._id, temp._id],
             ticketsClosed: [],
             ticketsFiled: []
         })
         console.log(user)
-        user.ticketsFiled[0].
-        return user.toObject()
+        user.populate('ticketsAssigned', (err, user) => {
+            user.ticketsAssigned
+            // (<Array<ItempSchema>>user.ticketsAssigned)[9]._id
+            // or
+
+            // user.ticketsAssigned = (<Array<ItempSchema>>user.ticketsAssigned)
+            // user.ticketsAssigned = user.ticketsAssigned
+            console.log(user)
+            return user.toObject()
+        })
+
     }
-    let k = a()
-    res.json(k)
+    let k = await a()
+    res.send(k)
 })
 
 export default app
