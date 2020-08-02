@@ -105,6 +105,7 @@ app.get('/', async (req, res, next) => {
         // })
 
     }
+    res.status(200)
     let k = await a()
     res.send(k)
 })
