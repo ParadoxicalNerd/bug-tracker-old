@@ -47,6 +47,11 @@ app.get('/', async (req, res, next) => {
             createdBy: [user._id],
             assignedTo: [user._id]
         })
+
+        user.ticketsAssigned.push(ticket._id)
+        user.ticketsFiled.push(ticket._id)
+        await user.save()
+
         console.log(ticket.toObject())
 
         let new_ticket = await ticketModel.find()
