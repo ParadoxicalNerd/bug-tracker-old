@@ -18,4 +18,4 @@ export const projectSchema: Schema<any> = new Schema({
     tickets: [{ type: Types.ObjectId, required: true, ref: ticketModel }]
 })
 
-export const projectModel = model<IProject>('project', projectSchema)
+export const projectModel = model<IProject>('projects', projectSchema)

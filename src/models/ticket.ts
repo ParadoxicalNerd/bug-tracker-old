@@ -1,4 +1,4 @@
-import { Document, Types, Schema, model } from 'mongoose'
+import { Document, Types, Schema, model } from 'mongoose'   
 import { projectModel, IProject, } from './project'
 import { IUser, userModel } from './user'
 

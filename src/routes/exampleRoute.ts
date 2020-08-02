@@ -5,16 +5,17 @@
 
 import express from 'express'
 import 'ts-mongoose/plugin'
-import { ticketStatus } from '../models/ticket'
+import { ticketStatus, ticketModel, ticketPriority, ticketTypes } from '../models/ticket'
 import assert from 'assert'
 import { userModel, userTypes } from '../models/user'
+import { projectModel } from '../models/project'
 
 const app = express.Router()
 
 app.get('/', async (req, res, next) => {
     async function a() {
         let user = await userModel.create({
-            name: "asddfaPan",
+            name: "Pankaj Meghani",
             type: userTypes.PROGRAMMER,
             ticketsFiled: [],
             ticketsClosed: [],
@@ -22,28 +23,39 @@ app.get('/', async (req, res, next) => {
         })
         console.log(user.toObject())
 
-        return user.toObject()
+        // return user.toObject()
 
-        // let project = await projectModel.create({
-        //     name: "pizsddas fasdfasdsa",
-        //     createdBy: [user._id]
-        // })
-        // // let project = (await projectModel.findOne({ name: "pizsdsa" }).exec())!
-        // // console.log(project.toObject())
-        // let ticket = await ticketModel.create({
-        //     title: 'Working with dsdexamples',
-        //     description: 'Create new example',
-        //     type: ticketTypes.BUG,
-        //     priority: ticketPriority.UNKNOWN,
-        //     status: ticketStatus.OPEN,
-        //     project: project._id,
-        //     createdBy: user._id
-        // })
-        // // console.log(ticket.toObject())\
+        let project = await projectModel.create({
+            name: "Bug Tracker",
+            description: "A simple bug tracking application created for fun",
+            createdBy: [user._id],
+            associatedUsers: [user._id],
+            tickets: []
+        })
+        console.log(project.toObject())
 
-        // let ticket = await ticketModel.find().populate('project').exec()
-        // console.log(ticket[0].toObject())
-        // return ticket[0].toObject()
+        // let project = (await projectModel.findOne({ name: "pizsdsa" }).exec())!
+        // console.log(project.toObject())
+
+        let ticket = await ticketModel.create({
+            title: 'Create pahts',
+            description: 'Create the required paths once the mongoose model is done',
+            type: ticketTypes.BUG,
+            priority: ticketPriority.UNKNOWN,
+            status: ticketStatus.OPEN,
+            project: project._id,
+            createdBy: [user._id],
+            assignedTo: [user._id]
+        })
+        console.log(ticket.toObject())
+
+        let new_ticket = await ticketModel.find()
+            .populate('project')
+            .populate('assignedTo')
+            .exec()
+
+        console.log(new_ticket[0].toObject())
+        return new_ticket[0].toObject()
 
         //  ==============================================
 
