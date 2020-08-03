@@ -8,17 +8,13 @@ const userTypesArray = Object.keys(userTypes)
 export type IUser = Document & {
     name: String,
     type: userTypes,
-    ticketsFiled: Types.ObjectId[] | ITicket[],
-    ticketsClosed: Types.ObjectId[] | ITicket[],
-    ticketsAssigned: Types.ObjectId[] | ITicket[]
+    tickets: Types.ObjectId[] | ITicket[],
 }
 
 export const userSchema: Schema<any> = new Schema({
     name: { type: String, required: true },
     type: { type: String, required: true, enum: userTypesArray },
-    ticketsFiled: [{ type: Schema.Types.ObjectId, required: true, ref: ticketModel }],
-    ticketsClosed: [{ type: Schema.Types.ObjectId, required: true, ref: ticketModel }],
-    ticketsAssigned: [{ type: Schema.Types.ObjectId, required: true, ref: ticketModel }]
+    tickets: [{ type: Schema.Types.ObjectId, required: true, ref: ticketModel }],
 })
 
 // userSchema.plugin(passportLocalMongoose)

@@ -4,7 +4,6 @@
 
 
 import express from 'express'
-import 'ts-mongoose/plugin'
 import { ticketStatus, ticketModel, ticketPriority, ticketTypes } from '../models/ticket'
 import assert from 'assert'
 import { userModel, userTypes } from '../models/user'

@@ -4,15 +4,15 @@ import logger from 'morgan'
 import createError from 'http-errors'
 // import passport from 'passport'
 
+require('dotenv').config()
+
 // import { router as userRouter } from './routes/user'
-// import { router as ticketRoute } from './routes/ticket'
+import { router as ticketRoute } from './routes/ticket'
 import example from './routes/exampleRoute'
 
 import http from 'http'
 
 import './database'
-
-import { getName } from '@typegoose/typegoose'
 
 const app = express()
 
@@ -26,7 +26,7 @@ console.log('Build completed successfully')
 // app.use(passport.session())
 
 app.use('/', example)
-// app.use('/tickets', ticketRoute)
+app.use('/tickets', ticketRoute)
 // app.use('/users', userRouter)
 
 app.use((req, res, next) => {
