@@ -12,8 +12,8 @@ class ticketService {
         try {
             const document = await ticketModel.find()
                 .populate('project', ['name', 'description'])
-                .populate('createdBy', ['name', 'type'])
-                .populate('assignedTo', ['name', 'type'])
+                .populate('createdBy', ['name', 'ofType'])
+                .populate('assignedTo', ['name', 'ofType'])
                 .exec()
             ticket = document
             statusCode = 200
@@ -46,9 +46,9 @@ class ticketService {
             const document = await ticketModel.create({
                 title: parameters.title,
                 description: parameters.description,
-                type: ticketTypes[parameters.priority as ticketTypes],
+                ofType: ticketTypes[parameters.type as ticketTypes],
                 priority: ticketPriority[parameters.priority as ticketPriority],
-                status: ticketStatus[parameters.priority as ticketStatus],
+                status: ticketStatus[parameters.status as ticketStatus],
                 project: parameters.project,
                 createdBy: parameters.createdBy,
                 assignedTo: parameters.assignedTo

@@ -15,10 +15,10 @@ app.get('/', async (req, res, next) => {
     async function a() {
         let user = await userModel.create({
             name: "Pankaj Meghani",
-            type: userTypes.PROGRAMMER,
-            ticketsFiled: [],
-            ticketsClosed: [],
-            ticketsAssigned: []
+            ofType: userTypes.PROGRAMMER,
+            // ticketsFiled: [],
+            // ticketsClosed: [],
+            tickets: []
         })
         console.log(user.toObject())
 
@@ -39,7 +39,7 @@ app.get('/', async (req, res, next) => {
         let ticket = await ticketModel.create({
             title: 'Create pahts',
             description: 'Create the required paths once the mongoose model is done',
-            type: ticketTypes.BUG,
+            ofType: ticketTypes.BUG,
             priority: ticketPriority.UNKNOWN,
             status: ticketStatus.OPEN,
             project: project._id,
@@ -47,8 +47,8 @@ app.get('/', async (req, res, next) => {
             assignedTo: [user._id]
         })
 
-        user.ticketsAssigned.push(ticket._id)
-        user.ticketsFiled.push(ticket._id)
+        // user.ticketsAssigned.push(ticket._id)
+        // user.ticketsFiled.push(ticket._id)
         await user.save()
 
         console.log(ticket.toObject())

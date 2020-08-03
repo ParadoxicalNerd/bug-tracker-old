@@ -1,4 +1,4 @@
-import { Document, Types, Schema, model } from 'mongoose'   
+import { Document, Types, Schema, model } from 'mongoose'
 import { projectModel, IProject, } from './project'
 import { IUser, userModel } from './user'
 
@@ -12,7 +12,7 @@ const ticketPriorityArray = Object.keys(ticketPriority)
 export type ITicket = Document & {
     title: String,
     description: String,
-    type: ticketTypes,
+    ofType: ticketTypes,
     status: ticketStatus,
     priority: ticketPriority,
     project: Types.ObjectId | IProject,
@@ -25,7 +25,7 @@ export type ITicket = Document & {
 export const ticketSchema: Schema<any> = new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    type: { type: String, required: true, enum: ticketTypesArray },
+    ofType: { type: String, required: true, enum: ticketTypesArray },
     status: { type: String, required: true, enum: ticketStatusArray },
     priority: { type: String, required: true, enum: ticketPriorityArray },
     project: { type: Types.ObjectId, required: true, ref: projectModel },
