@@ -38,7 +38,7 @@ router.route('/:ticketID')
         }
     })
     .put(async (req, res, next) => {
-        const { ticket, error, statusCode } = await TicketService.replaceOneTicket({ id: req.params.ticketID, updates: req.body })
+        const { ticket, error, statusCode } = await TicketService.modifyOneTicket({ id: req.params.ticketID, updates: req.body })
         res.statusCode = statusCode
         if (!error) {
             if (process.env.LOGGING) console.log(ticket)

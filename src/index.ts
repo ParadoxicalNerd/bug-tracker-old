@@ -6,7 +6,7 @@ import createError from 'http-errors'
 
 require('dotenv').config()
 
-// import { router as userRouter } from './routes/user'
+import { router as userRoute } from './routes/user'
 import { router as ticketRoute } from './routes/ticket'
 import example from './routes/exampleRoute'
 
@@ -27,7 +27,7 @@ console.log('Build completed successfully')
 
 app.use('/', example)
 app.use('/tickets', ticketRoute)
-// app.use('/users', userRouter)
+app.use('/users', userRoute)
 
 app.use((req, res, next) => {
     next(createError(404))

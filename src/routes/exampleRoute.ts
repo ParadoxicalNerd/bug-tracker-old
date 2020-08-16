@@ -20,7 +20,7 @@ app.get('/', async (req, res, next) => {
             // ticketsClosed: [],
             tickets: []
         })
-        console.log(user.toObject())
+        // console.log(user.toObject())
 
         // return user.toObject()
 
@@ -31,10 +31,10 @@ app.get('/', async (req, res, next) => {
             associatedUsers: [user._id],
             tickets: []
         })
-        console.log(project.toObject())
+        // console.log(project.toObject())
 
         // let project = (await projectModel.findOne({ name: "pizsdsa" }).exec())!
-        // console.log(project.toObject())
+        console.log(project.toObject())
 
         let ticket = await ticketModel.create({
             title: 'Create pahts',
@@ -51,14 +51,14 @@ app.get('/', async (req, res, next) => {
         // user.ticketsFiled.push(ticket._id)
         await user.save()
 
-        console.log(ticket.toObject())
+        // console.log(ticket.toObject())
 
         let new_ticket = await ticketModel.find()
             .populate('project')
             .populate('assignedTo')
             .exec()
 
-        console.log(new_ticket[0].toObject())
+        // console.log(new_ticket[0].toObject())
         return new_ticket[0].toObject()
 
         //  ==============================================
@@ -74,7 +74,7 @@ app.get('/', async (req, res, next) => {
         //     ticketsClosed: [],
         //     ticketsFiled: []
         // })
-        // console.log(user)
+        console.log(user)
         // user.ticketsFiled[0].
         // return user.toObject()
 
@@ -91,7 +91,7 @@ app.get('/', async (req, res, next) => {
         //     ticketsClosed: [],
         //     ticketsFiled: []
         // })
-        // console.log(user)
+        console.log(user)
         // user.populate('ticketsAssigned', (err, user) => {
         //     user.ticketsAssigned
         //     // (<Array<ItempSchema>>user.ticketsAssigned)[9]._id
@@ -99,7 +99,7 @@ app.get('/', async (req, res, next) => {
 
         //     // user.ticketsAssigned = (<Array<ItempSchema>>user.ticketsAssigned)
         //     // user.ticketsAssigned = user.ticketsAssigned
-        //     console.log(user)
+            console.log(user)
         //     return user.toObject()
         // })
 

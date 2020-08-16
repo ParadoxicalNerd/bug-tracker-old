@@ -95,7 +95,7 @@ class ticketService {
         }
     }
 
-    async replaceOneTicket(parameters: {
+    async modifyOneTicket(parameters: {
         id: string,
         updates: {
             title?: String,
