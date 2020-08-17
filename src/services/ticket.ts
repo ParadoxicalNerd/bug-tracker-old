@@ -10,7 +10,7 @@ class ticketService {
         let ticket: any = null, error: any = null, statusCode: number
 
         try {
-            const document = await ticketModel.find()
+            const document = await ticketModel.find({})
                 .populate('project', ['name', 'description'])
                 .populate('createdBy', ['name', 'ofType'])
                 .populate('assignedTo', ['name', 'ofType'])

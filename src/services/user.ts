@@ -9,7 +9,7 @@ class UserService {
         let user: any = null, error: any = null, statusCode: number
 
         try {
-            const document = await userModel.find()
+            const document = await userModel.find({})
                 .populate('tickets', ['title', 'description', 'ofType', 'priority', 'status'])
                 .exec()
             user = document

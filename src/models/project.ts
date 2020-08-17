@@ -13,9 +13,9 @@ export type IProject = Document & {
 export const projectSchema: Schema<any> = new Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
-    createdBy: [{ type: Types.ObjectId, required: true, ref: userModel }],
-    associatedUsers: [{ type: Types.ObjectId, required: true, ref: userModel }],
-    tickets: [{ type: Types.ObjectId, required: true, ref: ticketModel }]
+    createdBy: [{ type: Types.ObjectId, required: true, ref: 'users' }],
+    associatedUsers: [{ type: Types.ObjectId, required: true, ref: 'users' }],
+    tickets: [{ type: Types.ObjectId, required: true, ref: 'tickets' }]
 })
 
 export const projectModel = model<IProject>('projects', projectSchema)

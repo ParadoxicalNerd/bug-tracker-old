@@ -8,11 +8,13 @@ require('dotenv').config()
 
 import { router as userRoute } from './routes/user'
 import { router as ticketRoute } from './routes/ticket'
+import {router as projectRoute} from './routes/project'
 import example from './routes/exampleRoute'
 
 import http from 'http'
 
 import './database'
+import { projectModel } from './models/project'
 
 const app = express()
 
@@ -28,6 +30,7 @@ console.log('Build completed successfully')
 app.use('/', example)
 app.use('/tickets', ticketRoute)
 app.use('/users', userRoute)
+app.use('/projects', projectRoute)
 
 app.use((req, res, next) => {
     next(createError(404))

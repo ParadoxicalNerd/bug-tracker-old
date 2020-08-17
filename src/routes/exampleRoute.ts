@@ -53,7 +53,7 @@ app.get('/', async (req, res, next) => {
 
         // console.log(ticket.toObject())
 
-        let new_ticket = await ticketModel.find()
+        let new_ticket = await ticketModel.find({})
             .populate('project')
             .populate('assignedTo')
             .exec()
